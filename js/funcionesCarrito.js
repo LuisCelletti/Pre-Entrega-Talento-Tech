@@ -1,25 +1,42 @@
-import { guardarCarrito, obtenerCarrito ,vaciarCarrito } from './storage.js';
-import { actualizacrContador, mostrarMensaje } from './ui.js';
+import { renderCarrito } from "./carrito.js";
+import { guardarCarrito, obtenerCarrito } from './storage.js';
+import { actualizarContador, mostrarMensaje } from './ui.js';
 
 export const agregarAlCarrito = (producto) => {
-    const carrito = obtenerCarrito();
-    carrito.push(producto);
+    let carrito = obtenerCarrito();
+    
+    const productoExistente = carrito.find(item => item.id === producto.id);
+    
+    if (productoExistente) {
+        productoExistente.cantidad = (productoExistente.cantidad || 1) + 1;
+    } else {
+        carrito.push({ ...producto, cantidad: 1 });
+    }
+
     guardarCarrito(carrito);
-    actualizacrContador(carrito);
+    actualizarContador(carrito);
     mostrarMensaje('Producto agregado al carrito');
 };
 
-export const eliminarProductos = (id) => { 
-    const carrito = obtenerCarrito()
-    carrito.splice(id, 1);
+export const eliminarDelCarrito = (id) => { 
+    const carrito = obtenerCarrito();
 
-    guardarCarrito(carrito);
-    actualizacrContador(carrito);
+    const nuevoCarrito = carrito.filter(item => item.id !== id);
+
+    guardarCarrito(nuevoCarrito);
+    actualizarContador(nuevoCarrito);
     mostrarMensaje('Producto eliminado del carrito');
+    
+    if (document.getElementById('productos-carrito')) {
+        renderCarrito();
+    }
 };
 
 export const vaciarCarritoCompleto = () => {
-    vaciarCarritoStorage();
-    actualizacrContador([]);
+    guardarCarrito([]);
+    actualizarContador([]);
     mostrarMensaje('Carrito vaciado');
+    if (document.getElementById('productos-carrito')) {
+        renderCarrito();
+    }
 };

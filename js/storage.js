@@ -1,14 +1,13 @@
-conts KEY ="carrito";
+const KEY = "carrito";
 
 export const guardarCarrito = (carrito) => {
     localStorage.setItem(KEY, JSON.stringify(carrito));
 };
 
-export conts obtenerCarrito = () => {
-       return JSON.parse(localStorage.getItem(carrito)) || [];
+export const obtenerCarrito = () => {
+    return JSON.parse(localStorage.getItem(KEY)) || [];
 };
 
-// Agregamos"Storage" al nombre de la función para que no se pise con las funcioneCarrito
 export const vaciarCarritoStorage = () => {
- localStorage.removeItem(KEY);    
+    localStorage.removeItem(KEY);
 };

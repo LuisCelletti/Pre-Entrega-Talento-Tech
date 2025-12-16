@@ -3,7 +3,7 @@ import { obtenerCarrito } from "./storage.js";
 import { actualizarContador, mostrarMensaje } from "./ui.js";
 
 document.addEventListener('DOMContentLoaded', () => {
-    const content = document.getElementById("contedor-tarjetas");
+    const content = document.getElementById("contenedor-tarjetas");
     const carrito = obtenerCarrito();
     actualizarContador(carrito);
 
@@ -33,8 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 boton.textContent = "Agregar al carrito";
                 boton.addEventListener("click", () => {
                     agregarAlCarrito(producto);
-                    actualizarContador(obtenerCarrito());
-                    mostrarMensaje("Producto agregado al carrito");
+                    // Ya no es necesario llamar actualizarContador aquí, se hace dentro de agregarAlCarrito
                 });
 
                 tarjeta.appendChild(imagen);
